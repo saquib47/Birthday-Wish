@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bestie! 🎉🎂</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        /* Animated background color */
+        @keyframes backgroundAnimation {
+            0% { background-color: #ff9a9e; }
+            25% { background-color: #fad0c4; }
+            50% { background-color: #ffdde1; }
+            75% { background-color: #ffb6c1; }
+            100% { background-color: #ff9a9e; }
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            overflow-y: auto;
+            animation: backgroundAnimation 10s linear infinite;
+            font-family: 'Dancing Script', cursive, Arial, sans-serif;
+            text-align: center;
+        }
+
+        /* Container styling */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform-style: preserve-3d;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            margin-top: 30px;
+        }
+
+        /* Styled birthday image */
+        .birthday-image {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+            transition: transform 0.3s ease-in-out;
+            animation: bounce 1.5s infinite alternate;
+        }
+
+        .birthday-image:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Button styling */
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ff4757;
+            transform: scale(1.1);
+        }
+
+        /* Particles effect */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        /* Animated text styling */
+        .animated-text {
+            font-size: 22px;
+            color: #ff2e63;
+            font-weight: bold;
+            min-height: 50px;
+            margin-top: 10px;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Falling roses */
+        .rose {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <!-- Falling roses container -->
+    <div id="roses-container"></div>
+
+    <div class="container">
+        <h1>🎉 Happy Birthday🎂, Zebu💕👸 </h1>
+        <img src="pic.jpg" alt="Happy Birthday" class="birthday-image">
+        <p class="animated-text" id="message"></p>
+        <button onclick="playMusicAndSparkle()">Click for a Surprise 🎶✨</button>
+        <audio id="birthdaySong" src="birthday_song.mp3"></audio>
+    </div>
+
+    <script>
+        function playMusicAndSparkle() {
+            document.getElementById("birthdaySong").play();
+
+            let message = "Alhamdulillah for the blessing of your existence in my life! On this special day, I pray that Allah (SWT) blesses you with immense happiness, good health, and barakah in your life. May He grant you success in both this dunya and the akhirah, fill your heart with peace, and surround you with His endless mercy and guidance. May every step you take bring you closer to Jannah, and may all your dreams align with what is best for you in this life and the Hereafter. Ameen. 💖✨";
+            let words = message.split(" ");
+            let displayText = document.getElementById("message");
+            displayText.innerHTML = "";
+
+            let index = 0;
+            function showNextWord() {
+                if (index < words.length) {
+                    let span = document.createElement("span");
+                    span.textContent = words[index] + " ";
+                    span.classList.add("fade-in");
+                    displayText.appendChild(span);
+                    index++;
+                    setTimeout(showNextWord, 400);
+                } else {
+                    setTimeout(() => {
+                        displayText.innerHTML = `<span class="fade-in">${message}</span>`;
+                    }, 1000);
+                }
+            }
+            showNextWord();
+
+            // Particles effect
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": { "value": 100 },
+                    "shape": { "type": "image", "image": { "src": "https://cdn-icons-png.flaticon.com/512/833/833472.png", "width": 100, "height": 100 } },
+                    "size": { "value": 10 },
+                    "move": { "enable": true, "speed": 3 }
+                }
+            });
+
+            // Generate falling roses
+            generateRoses();
+        }
+
+        function generateRoses() {
+            const roseContainer = document.getElementById("roses-container");
+            for (let i = 0; i < 10; i++) {
+                let rose = document.createElement("img");
+                rose.src = "https://cdn-icons-png.flaticon.com/512/2784/2784480.png"; 
+                rose.className = "rose";
+                rose.style.left = Math.random() * 100 + "vw";
+                rose.style.animationDuration = Math.random() * 3 + 3 + "s"; 
+                roseContainer.appendChild(rose);
+
+                setTimeout(() => {
+                    rose.remove();
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
